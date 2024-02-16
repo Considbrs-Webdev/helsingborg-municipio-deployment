@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/devcontainers/php:1-8.3-bullseye
+ARG imageVariant
+FROM mcr.microsoft.com/devcontainers/php:1-${imageVariant}
 
 # Replaces invalid key. Required to use apt-get when running this PHP 7.4 image.
 # RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
