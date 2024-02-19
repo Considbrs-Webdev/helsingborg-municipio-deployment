@@ -19,9 +19,6 @@
       "johnpbloch/wordpress-core-installer": true,
       "wikimedia/composer-merge-plugin": true,
       "php-http/discovery": true
-    },
-    "platform": {
-      "php": "8.3"
     }
   },
   "minimum-stability" : "dev",
