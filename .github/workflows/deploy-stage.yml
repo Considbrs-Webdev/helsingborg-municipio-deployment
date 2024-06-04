@@ -12,7 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Checkout the repository
     - uses: actions/checkout@v2
+    # Start Check Point VPN
+    - name: Start Check Point VPN
+      run: |
+        docker run -d --name vpn-container \
+          -e VPN_HOST=${{ secrets.VPN_HOST }} \
+          -e VPN_USER=${{ secrets.VPN_USER }} \
+          -e VPN_PASSWORD=${{ secrets.VPN_PASS }} \
+          --privileged \
+          kedu/snx-checkpoint-vpn
+      env:
+        VPN_HOST: ${{ secrets.VPN_HOST }}
+        VPN_USER: ${{ secrets.VPN_USER }}
+        VPN_PASS: ${{ secrets.VPN_PASS }}
+
+    # Wait for VPN to connect
+    - name: Wait for VPN to connect
+      run: sleep 10
+    # Perform the deployment using the custom deploy action
 
     - uses: helsingborg-stad/municipio-deploy/3.0@master
       with:
