@@ -1,4 +1,4 @@
-name: Build and deploy stage, beta, test release.
+name: VPN Build and deploy stage, beta, test release.
 
 on:
   workflow_dispatch:
