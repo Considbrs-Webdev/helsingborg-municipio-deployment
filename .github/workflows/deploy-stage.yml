@@ -3,7 +3,7 @@ name: Build and deploy stage, beta, test release.
 on:
   workflow_dispatch:
   push:
-    branches: [stage, beta, test]
+    branches: [master, stage, beta, test]
     paths-ignore:
       - .github/**
 
