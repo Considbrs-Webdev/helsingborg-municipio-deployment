@@ -12,36 +12,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository
-    - uses: actions/checkout@v2
-    # Start Check Point VPN
-    - name: Start Check Point VPN
-      run: |
-        docker run -d --name vpn-container \
-          -e VPN_HOST=${{ secrets.VPN_HOST }} \
-          -e VPN_USER=${{ secrets.VPN_USER }} \
-          -e VPN_PASSWORD=${{ secrets.VPN_PASS }} \
-          --privileged \
-          kedu/snx-checkpoint-vpn
-      env:
-        VPN_HOST: ${{ secrets.VPN_HOST }}
-        VPN_USER: ${{ secrets.VPN_USER }}
-        VPN_PASS: ${{ secrets.VPN_PASS }}
+      # Checkout the repository
+      - uses: actions/checkout@v2
+      # Start Check Point VPN
+      - name: Start Check Point VPN
+        run: |
+          docker run -d --name vpn-container \
+            -e VPN_HOST=${{ secrets.VPN_HOST }} \
+            -e VPN_USER=${{ secrets.VPN_USER }} \
+            -e VPN_PASSWORD=${{ secrets.VPN_PASS }} \
+            --privileged \
+            kedu/snx-checkpoint-vpn
+        env:
+          VPN_HOST: ${{ secrets.VPN_HOST }}
+          VPN_USER: ${{ secrets.VPN_USER }}
+          VPN_PASS: ${{ secrets.VPN_PASS }}
 
-    # Wait for VPN to connect
-    - name: Wait for VPN to connect
-      run: sleep 10
-    # Perform the deployment using the custom deploy action
+      # Wait for VPN to connect
+      - name: Wait for VPN to connect
+        run: sleep 10
+      # Perform the deployment using the custom deploy action
 
-    - uses: helsingborg-stad/municipio-deploy/3.0@master
-      with:
-        deploy-host: ${{ secrets.DEPLOY_REMOTE_HOST_STAGE }}
-        deploy-port: ${{ secrets.DEPLOY_REMOTE_PORT_STAGE }}
-        deploy-host-path: ${{ secrets.DEPLOY_REMOTE_PATH_STAGE  }}
-        deploy-host-backup-path: ${{ secrets.DEPLOY_REMOTE_BACKUP_DIR_STAGE }}
-        deploy-host-user: ${{ secrets.DEPLOY_REMOTE_USER_STAGE }}
-        deploy-host-user-key: ${{ secrets.DEPLOY_KEY_STAGE }}
-        deploy-host-web-server-user: ${{ secrets.WEB_SERVER_USER_STAGE }}
-        github-token: ${{ secrets.TOKEN_GITHUB }}
-        acf-url: ${{ secrets.ACF_URL }}
-        php-version: ${{ vars.PHP_VERSION }}
+      - name: Log VPN Connection Details
+        run: docker logs vpn-container
+
+      - uses: helsingborg-stad/municipio-deploy/3.0@master
+        with:
+          deploy-host: ${{ secrets.DEPLOY_REMOTE_HOST_STAGE }}
+          deploy-port: ${{ secrets.DEPLOY_REMOTE_PORT_STAGE }}
+          deploy-host-path: ${{ secrets.DEPLOY_REMOTE_PATH_STAGE  }}
+          deploy-host-backup-path: ${{ secrets.DEPLOY_REMOTE_BACKUP_DIR_STAGE }}
+          deploy-host-user: ${{ secrets.DEPLOY_REMOTE_USER_STAGE }}
+          deploy-host-user-key: ${{ secrets.DEPLOY_KEY_STAGE }}
+          deploy-host-web-server-user: ${{ secrets.WEB_SERVER_USER_STAGE }}
+          github-token: ${{ secrets.TOKEN_GITHUB }}
+          acf-url: ${{ secrets.ACF_URL }}
+          php-version: ${{ vars.PHP_VERSION }}
