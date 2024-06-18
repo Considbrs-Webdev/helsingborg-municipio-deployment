@@ -110,6 +110,7 @@
     "symfony/polyfill-php80": "^1",
     "true/punycode": "^2.1.1",
     "wikimedia/composer-merge-plugin": "dev-master",
+    "wpackagist-plugin/authldap": "*",
     "wpackagist-plugin/autodescription": "~4.2.8",
     "wpackagist-plugin/cookies-and-content-security-policy": "~2.22",
     "wpackagist-plugin/fakerpress": "~0.6.2",
