@@ -28,4 +28,3 @@ jobs:
         kill-lsphp: true
         github-token: ${{ secrets.TOKEN_GITHUB }}
         acf-url: ${{ secrets.ACF_URL }}
-        php-version: ${{ vars.PHP_VERSION }}
